@@ -1,11 +1,11 @@
 'use server'
 
-import { PhoneSchema } from '@/schemas'
 import TrezSMSClient from 'trez-sms-client'
 import { z } from 'zod'
 import crypto from 'crypto'
 import { prisma } from '@/lib/prisma'
-import { getUserById, getUserByPhoneNumber } from '@/data/user'
+import { PhoneSchema } from '@/lib/schemas/auth'
+import { getUserById } from '@/lib/queries/auth/user'
 
 export const sendSms = async (values: z.infer<typeof PhoneSchema>) => {
   const verificationCode = crypto.randomInt(100123, 999879)

@@ -5,7 +5,6 @@ import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { ResetSchema } from '@/schemas'
 import { Input } from '@/components/ui/input'
 import {
   Form,
@@ -21,9 +20,9 @@ import { Button } from '@/components/ui/button'
 import { FormError } from './form-error'
 import { FormSuccess } from './form-success'
 
-import { register } from '@/actions/register'
 import { useRouter } from 'next/navigation'
-import { reset } from '@/actions/reset'
+import { reset } from '@/lib/actions/auth/reset'
+import { ResetSchema } from '@/lib/schemas/auth'
 
 export const ResetForm = () => {
   const router = useRouter()

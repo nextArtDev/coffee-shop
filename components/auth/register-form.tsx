@@ -5,7 +5,6 @@ import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { RegisterSchema } from '@/schemas'
 import { Input } from '@/components/ui/input'
 import {
   Form,
@@ -21,14 +20,17 @@ import { Button } from '@/components/ui/button'
 import { FormError } from './form-error'
 import { FormSuccess } from './form-success'
 
-import { register } from '@/actions/register'
 import { useRouter } from 'next/navigation'
+import { RegisterSchema } from '@/lib/schemas/auth'
+import { register } from '@/lib/actions/auth/register'
+import { Eye } from 'lucide-react'
 
 export const RegisterForm = () => {
   const router = useRouter()
   const [error, setError] = useState<string | undefined>('')
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
+  const [showPassWord, setShowPassWord] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
@@ -72,6 +74,7 @@ export const RegisterForm = () => {
                   <FormLabel>نام کاربری</FormLabel>
                   <FormControl>
                     <Input
+                      className="!bg-background/10 "
                       {...field}
                       disabled={isPending}
                       placeholder="John Doe"
@@ -92,6 +95,7 @@ export const RegisterForm = () => {
                   <FormLabel>موبایل</FormLabel>
                   <FormControl>
                     <Input
+                      className="!bg-background/10 "
                       {...field}
                       disabled={isPending}
                       placeholder="0900000000"
@@ -111,12 +115,19 @@ export const RegisterForm = () => {
                 <FormItem>
                   <FormLabel>رمز عبور</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                    />
+                    <div className="relative">
+                      <Input
+                        className="!bg-background/10"
+                        {...field}
+                        disabled={isPending}
+                        placeholder="******"
+                        type={showPassWord ? '' : 'password'}
+                      />
+                      <Eye
+                        onClick={() => setShowPassWord((prev) => !prev)}
+                        className=" w-6 h-6 absolute top-[50%] -translate-y-[50%] left-1 sm:left-3 cursor-pointer"
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

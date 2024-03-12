@@ -22,6 +22,7 @@ import { FormError } from './form-error'
 import { FormSuccess } from './form-success'
 import { LoginSchema } from '@/lib/schemas/auth'
 import { login } from '@/lib/actions/auth/login'
+import { Eye } from 'lucide-react'
 
 export const LoginForm = () => {
   const router = useRouter()
@@ -37,6 +38,7 @@ export const LoginForm = () => {
   const [success, setSuccess] = useState<string | undefined>('')
   const [activation, setActivation] = useState<boolean | undefined>(false)
   const [isPending, startTransition] = useTransition()
+  const [showPassWord, setShowPassWord] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -83,6 +85,7 @@ export const LoginForm = () => {
       backButtonLabel="هنوز اکانت نساخته‌اید؟"
       backButtonHref="/register"
       showSocial
+      className="rounded-sm border-nome "
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -95,13 +98,14 @@ export const LoginForm = () => {
                   <FormLabel>شماره موبایل</FormLabel>
                   <FormControl>
                     <Input
+                      className="!bg-background/10 "
                       {...field}
                       disabled={isPending}
                       placeholder="09000000000"
                       type="string"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="" />
                 </FormItem>
               )}
             />
@@ -112,13 +116,21 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>رمز عبور</FormLabel>
                   <FormControl>
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder="******"
-                      type="password"
-                    />
+                    <div className="relative">
+                      <Input
+                        className="!bg-background/10"
+                        {...field}
+                        disabled={isPending}
+                        placeholder="******"
+                        type={showPassWord ? '' : 'password'}
+                      />
+                      <Eye
+                        onClick={() => setShowPassWord((prev) => !prev)}
+                        className="w-6 h-6 absolute top-[50%] -translate-y-[50%] left-1 sm:left-3 cursor-pointer"
+                      />
+                    </div>
                   </FormControl>
+                  <FormMessage className="" />
                   <Button
                     size="sm"
                     variant="link"
@@ -127,7 +139,6 @@ export const LoginForm = () => {
                   >
                     <Link href="/reset">رمز عبور را فراموش کرده‌اید؟</Link>
                   </Button>
-                  <FormMessage />
                 </FormItem>
               )}
             />

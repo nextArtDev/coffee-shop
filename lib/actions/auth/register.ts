@@ -1,11 +1,13 @@
 'use server'
 
 import * as z from 'zod'
-import { RegisterSchema } from '@/schemas'
+
 import { sendSms, verifySms } from './sms'
 import bcrypt from 'bcryptjs'
-import { getUserById, getUserByPhoneNumber } from '@/data/user'
+
 import { prisma } from '@/lib/prisma'
+import { RegisterSchema } from '@/lib/schemas/auth'
+import { getUserByPhoneNumber } from '@/lib/queries/auth/user'
 
 // import { db } from "@/lib/db";
 // import { getUserByEmail } from "@/data/user";
