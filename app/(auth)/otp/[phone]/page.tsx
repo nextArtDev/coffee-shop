@@ -3,12 +3,13 @@
 import React, { startTransition, useState, useTransition } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 import OtpInput from '../../../../components/auth/otp-input'
-import { activation } from '@/actions/register'
+
 import { useParams, useRouter } from 'next/navigation'
 import { FormError } from '@/components/auth/form-error'
 import { FormSuccess } from '@/components/auth/form-success'
-import { sendSms } from '@/actions/sms'
+
 import { Loader2 } from 'lucide-react'
+import { activation } from '@/lib/actions/auth/register'
 
 type FormData = {
   otp: string
@@ -33,12 +34,12 @@ export default function OtpForm({ params }: { params: { phone: string } }) {
     startTransition(() => {
       activation({ phone: params.phone, verificationCode: data.otp }).then(
         (res) => {
-          setError(res.error)
-          setSuccess(res.success)
-          if (res.success) {
+          setError(res?.error)
+          setSuccess(res?.success)
+          if (res?.success) {
             router.push('/')
           }
-          if (res.error) {
+          if (res?.error) {
             // router.push('/register')
             reset()
           }

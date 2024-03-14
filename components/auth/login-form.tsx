@@ -28,10 +28,6 @@ export const LoginForm = () => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl')
-  const urlError =
-    searchParams.get('error') === 'OAuthAccountNotLinked'
-      ? 'Email already in use with different provider!'
-      : ''
 
   const [showTwoFactor, setShowTwoFactor] = useState(false)
   const [error, setError] = useState<string | undefined>('')
@@ -57,7 +53,7 @@ export const LoginForm = () => {
         .then((data) => {
           if (
             data?.error ===
-            'شما اکانت خود را از طریق کد ارسال شده فعال نکرده‌اید.'
+            'شما هنوزاکانت خود را از طریق کد ارسال شده فعال نکرده‌اید.'
           ) {
             setError(data.error)
             setActivation(true)
@@ -75,7 +71,7 @@ export const LoginForm = () => {
           //       setShowTwoFactor(true)
           //     }
         })
-        .catch(() => setError('Something went wrong'))
+        .catch(() => setError('مشکلی پیش آمده، لطفا دوباره امتحان کنید!'))
     })
   }
 
@@ -143,7 +139,7 @@ export const LoginForm = () => {
               )}
             />
           </div>
-          <FormError message={error || urlError} />
+          <FormError message={error} />
           <FormSuccess message={success} />
           {activation ? (
             <Button variant={'destructive'} className="w-full">

@@ -1,18 +1,15 @@
 'use server'
 
 import * as z from 'zod'
-
+import { signIn } from '@/auth'
 import { sendSms, verifySms } from './sms'
 import bcrypt from 'bcryptjs'
+import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 
 import { prisma } from '@/lib/prisma'
 import { RegisterSchema } from '@/lib/schemas/auth'
 import { getUserByPhoneNumber } from '@/lib/queries/auth/user'
-
-// import { db } from "@/lib/db";
-// import { getUserByEmail } from "@/data/user";
-// import { sendVerificationEmail } from "@/lib/mail";
-// import { generateVerificationToken } from "@/lib/tokens";
+import { redirect } from 'next/navigation'
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values)
@@ -76,8 +73,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 export const activation = async (values: {
   phone: string
   verificationCode: string
+  callbackUrl?: string | null
 }) => {
-  const { phone, verificationCode } = values
+  const { phone, verificationCode, callbackUrl } = values
 
   const user = await getUserByPhoneNumber(phone)
 
@@ -90,8 +88,14 @@ export const activation = async (values: {
   if (smsVerification?.error) {
     return { error: smsVerification.error }
   }
+  // await signIn('credentials', {
+  //   phone,
+  //   password: user.password,
+  //   redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
+  // })
 
   // console.log(smsVerification)
 
+  redirect('/login')
   return { success: 'اکانت شما با موفقیت فعال شد.' }
 }

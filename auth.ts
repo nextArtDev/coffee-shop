@@ -15,7 +15,7 @@ export const {
   auth,
   signIn,
   signOut,
-  update,
+  unstable_update,
 } = NextAuth({
   pages: {
     signIn: '/login',
@@ -32,7 +32,7 @@ export const {
   callbacks: {
     async signIn({ user, account }) {
       // Allow OAuth without email verification
-      if (account?.provider !== 'credentials') return true
+      if (account?.provider !== 'Credentials') return true
 
       const existingUser = await getUserById(user.id)
 
