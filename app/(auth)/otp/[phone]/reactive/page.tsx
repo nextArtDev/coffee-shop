@@ -53,7 +53,7 @@ export default function OtpForm({ params }: { params: { phone: string } }) {
           setError(res.error)
           setSuccess(res.success)
           if (res.success) {
-            router.push('/')
+            router.push('/login')
           }
           if (res.error) {
             reset()

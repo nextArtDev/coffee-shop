@@ -24,6 +24,7 @@ import { useRouter } from 'next/navigation'
 import { RegisterSchema } from '@/lib/schemas/auth'
 import { register } from '@/lib/actions/auth/register'
 import { Eye } from 'lucide-react'
+import Link from 'next/link'
 
 export const RegisterForm = () => {
   const router = useRouter()
@@ -31,7 +32,7 @@ export const RegisterForm = () => {
   const [success, setSuccess] = useState<string | undefined>('')
   const [isPending, startTransition] = useTransition()
   const [showPassWord, setShowPassWord] = useState<boolean>(false)
-
+  const [activation, setActivation] = useState<boolean | undefined>(false)
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -48,6 +49,14 @@ export const RegisterForm = () => {
     startTransition(() => {
       register(values)
         .then((data) => {
+          if (
+            data?.error ===
+            'شما قبلا ثبت نام کرده‌اید، لطفا به قسمت فعالسازی اکانت بروید.'
+          ) {
+            setError(data.error)
+            setActivation(true)
+          }
+
           setError(data.error)
           setSuccess(data.success)
           if (data.success) {
@@ -138,9 +147,17 @@ export const RegisterForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
-            ارسال کد تایید
-          </Button>
+          {activation ? (
+            <Button variant={'destructive'} className="w-full">
+              <Link href={`/otp/${form.getValues('phone')}/reactive`}>
+                فعالسازی اکانت
+              </Link>
+            </Button>
+          ) : (
+            <Button disabled={isPending} type="submit" className="w-full">
+              ارسال کد تایید
+            </Button>
+          )}
         </form>
       </Form>
     </CardWrapper>
