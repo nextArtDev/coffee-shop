@@ -88,14 +88,14 @@ export const activation = async (values: {
   if (smsVerification?.error) {
     return { error: smsVerification.error }
   }
-  // await signIn('credentials', {
+  // const res = await signIn('Credentials', {
   //   phone,
   //   password: user.password,
   //   redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
   // })
 
-  // console.log(smsVerification)
+  // console.log({ res })
 
-  redirect('/login')
+  // redirect('/login')
   return { success: 'اکانت شما با موفقیت فعال شد.' }
 }

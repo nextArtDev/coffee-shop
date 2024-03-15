@@ -13,6 +13,7 @@ export const publicRoutes = ['/']
 export const authRoutes = [
   '/login',
   '/register',
+  '/otp',
   '/otp/:path*',
   '/error',
   '/reset',

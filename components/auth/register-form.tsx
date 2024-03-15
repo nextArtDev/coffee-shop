@@ -46,13 +46,15 @@ export const RegisterForm = () => {
     setSuccess('')
 
     startTransition(() => {
-      register(values).then((data) => {
-        setError(data.error)
-        setSuccess(data.success)
-        if (data.success) {
-          router.push(`/otp/${values.phone}`)
-        }
-      })
+      register(values)
+        .then((data) => {
+          setError(data.error)
+          setSuccess(data.success)
+          if (data.success) {
+            router.push(`/otp/${values.phone}`)
+          }
+        })
+        .catch((error) => console.log(error))
     })
   }
 

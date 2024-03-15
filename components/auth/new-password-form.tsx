@@ -5,7 +5,6 @@ import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { NewPasswordSchema } from '@/schemas'
 import { Input } from '@/components/ui/input'
 import {
   Form,
@@ -21,10 +20,11 @@ import { Button } from '@/components/ui/button'
 import { FormError } from './form-error'
 import { FormSuccess } from './form-success'
 
-import { register } from '@/actions/register'
 import { useRouter } from 'next/navigation'
-import { resetPass } from '@/actions/reset'
+
 import { signIn } from '@/auth'
+import { resetPass } from '@/lib/actions/auth/reset'
+import { NewPasswordSchema } from '@/lib/schemas/auth'
 
 export const NewPasswordForm = ({ phone }: { phone: string }) => {
   const router = useRouter()
