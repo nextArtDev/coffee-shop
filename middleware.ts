@@ -8,6 +8,7 @@ import {
   publicRoutes,
 } from '@/routes'
 
+//to support Edge which is not supported by prisma by default
 const { auth } = NextAuth(authConfig)
 
 export default auth((req) => {
@@ -42,11 +43,12 @@ export default auth((req) => {
       // new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     )
   }
-
+  //means don't do anything
   return null
 })
 
 // Optionally, don't invoke Middleware on some paths
+// simple matcher for any route you want to invoke he middleware(here all routes)
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 }

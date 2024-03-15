@@ -6,8 +6,6 @@ import { getUserByPhoneNumber } from './lib/queries/auth/user'
 // import Github from 'next-auth/providers/github'
 // import Google from 'next-auth/providers/google'
 
-// import { getUserByEmail } from '@/data/user'
-
 export default {
   providers: [
     // Google({

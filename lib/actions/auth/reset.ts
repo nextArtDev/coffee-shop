@@ -1,12 +1,14 @@
 'use server'
 
 import * as z from 'zod'
-import { NewPasswordSchema, RegisterSchema, ResetSchema } from '@/schemas'
+
 import { sendSms, verifySms } from './sms'
 import bcrypt from 'bcryptjs'
-import { getUserById, getUserByPhoneNumber } from '@/data/user'
+
 import { prisma } from '@/lib/prisma'
 import { auth, signIn } from '@/auth'
+import { NewPasswordSchema, ResetSchema } from '@/lib/schemas/auth'
+import { getUserByPhoneNumber } from '@/lib/queries/auth/user'
 
 export const reset = async (values: z.infer<typeof ResetSchema>) => {
   const validatedFields = ResetSchema.safeParse(values)

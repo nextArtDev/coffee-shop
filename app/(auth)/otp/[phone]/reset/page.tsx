@@ -8,14 +8,14 @@ import React, {
 } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 
-import { activation } from '@/actions/register'
 import { useParams, useRouter } from 'next/navigation'
 import { FormError } from '@/components/auth/form-error'
 import { FormSuccess } from '@/components/auth/form-success'
-import { sendSms } from '@/actions/sms'
+
 import OtpInput from '../../../../../components/auth/otp-input'
 import { Button } from '@/components/ui/button'
-import { reactivate } from '@/actions/reactivate'
+import { activation } from '@/lib/actions/auth/register'
+import { reactivate } from '@/lib/actions/auth/reactivate'
 
 type FormData = {
   otp: string

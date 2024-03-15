@@ -39,19 +39,6 @@ export const {
       // Prevent sign in without verification
       if (!existingUser || !existingUser?.isVerified) return false
 
-      //   if (existingUser.isTwoFactorEnabled) {
-      //     const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(
-      //       existingUser.id
-      //     )
-
-      //     if (!twoFactorConfirmation) return false
-
-      //     // Delete two factor confirmation for next sign in
-      //     await prisma.twoFactorConfirmation.delete({
-      //       where: { id: twoFactorConfirmation.id },
-      //     })
-      //   }
-
       return true
     },
     async session({ token, session }) {
