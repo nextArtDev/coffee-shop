@@ -12,7 +12,10 @@ export const getUserByPhoneNumber = async (phone: string) => {
 
 export const getUserById = async (id: string) => {
   try {
-    const user = await prisma.user.findUnique({ where: { id } })
+    const user = await prisma.user.findUnique({
+      where: { id },
+      include: { image: { select: { url: true } } },
+    })
 
     return user
   } catch {

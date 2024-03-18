@@ -45,8 +45,7 @@ export const login = async (
     await signIn('credentials', {
       phone,
       password,
-      // redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
-      redirectTo: '/',
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     })
   } catch (error) {
     if (error instanceof AuthError) {

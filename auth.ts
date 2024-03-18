@@ -66,6 +66,7 @@ export const {
 
       return session
     },
+    // session uses the session to generate the session, so first we should fix the session
     async jwt({ token }) {
       //sub is user.id but "user" field is not reliable to use
 
@@ -87,6 +88,7 @@ export const {
       token.phone = existingUser.phone
       token.role = existingUser.role
       token.isVerified = existingUser.isVerified
+      token.picture = existingUser.image?.url
 
       return token
     },
