@@ -10,6 +10,7 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 import { sendSms, verifySms } from './sms'
 import { LoginSchema } from '@/lib/schemas/auth'
 import { getUserByPhoneNumber } from '@/lib/queries/auth/user'
+import { redirect } from 'next/navigation'
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,

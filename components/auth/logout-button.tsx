@@ -1,6 +1,7 @@
 'use client'
 
-import { logout } from '@/actions/logout'
+import { logout } from '@/lib/actions/auth/logout'
+
 // or we can use import {signOut} from 'next-auth/react'
 interface LogoutButtonProps {
   children?: React.ReactNode

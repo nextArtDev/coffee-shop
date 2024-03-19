@@ -17,12 +17,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { CardWrapper } from '@/components/auth/card-wrapper'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { FormError } from './form-error'
 import { FormSuccess } from './form-success'
 import { LoginSchema } from '@/lib/schemas/auth'
 import { login } from '@/lib/actions/auth/login'
 import { Eye } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export const LoginForm = () => {
   const router = useRouter()
@@ -53,10 +54,11 @@ export const LoginForm = () => {
         .then((data) => {
           if (
             data?.error ===
-            'شما هنوزاکانت خود را از طریق کد ارسال شده فعال نکرده‌اید.'
+            'شما اکانت خود را از طریق کد ارسال شده فعال نکرده‌اید.'
           ) {
-            setError(data.error)
             setActivation(true)
+            console.log(activation)
+            setError(data.error)
           } else if (data?.error) {
             // form.reset()
             setError(data.error)
@@ -142,11 +144,15 @@ export const LoginForm = () => {
           <FormError message={error} />
           <FormSuccess message={success} />
           {activation ? (
-            <Button variant={'destructive'} className="w-full">
-              <Link href={`/otp/${form.getValues('phone')}/reactive`}>
-                فعالسازی اکانت
-              </Link>
-            </Button>
+            <Link
+              className={cn(
+                buttonVariants({ variant: 'destructive' }),
+                'w-full'
+              )}
+              href={`/otp/${form.getValues('phone')}/reactive`}
+            >
+              فعالسازی اکانت
+            </Link>
           ) : (
             <Button disabled={isPending} type="submit" className="w-full">
               {showTwoFactor ? 'تایید' : 'ورود'}

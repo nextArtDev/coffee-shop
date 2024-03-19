@@ -28,6 +28,7 @@ export const reactivate = async (values: z.infer<typeof PhoneSchema>) => {
   if (!user) {
     return { error: 'این شماره موجود نیست!' }
   }
+  if (user.isVerified) return { error: 'حساب شما فعال است!' }
 
   const smsCode = await sendSms({ phone })
 

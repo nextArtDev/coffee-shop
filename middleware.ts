@@ -11,7 +11,7 @@ import {
 //to support Edge which is not supported by prisma by default
 const { auth } = NextAuth(authConfig)
 
-export default auth((req) => {
+export default auth((req): void | Response | Promise<void | Response> => {
   const { nextUrl } = req
   const isLoggedIn = !!req.auth
   const isActivated = !!req.auth?.user.isVerified
@@ -20,15 +20,13 @@ export default auth((req) => {
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
   const isAuthRoute = authRoutes.includes(nextUrl.pathname)
 
-  if (isApiAuthRoute) {
-    return null
-  }
+  if (isApiAuthRoute) return
 
   if (isAuthRoute) {
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
     }
-    return null
+    return
   }
 
   if (isActivated) {
@@ -47,7 +45,7 @@ export default auth((req) => {
     }
   }
   //means don't do anything
-  return null
+  return
 })
 
 // Optionally, don't invoke Middleware on some paths

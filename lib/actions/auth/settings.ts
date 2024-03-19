@@ -3,12 +3,11 @@
 import * as z from 'zod'
 import bcrypt from 'bcryptjs'
 
-import { update } from '@/auth'
-
-import { SettingsSchema } from '@/schemas'
-import { getUserByPhoneNumber, getUserById } from '@/data/user'
 import { currentUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { SettingsSchema } from '@/lib/schemas/auth'
+import { getUserById } from '@/lib/queries/auth/user'
+import { unstable_update } from '@/auth'
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const user = await currentUser()
@@ -61,7 +60,7 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
     },
   })
 
-  update({
+  unstable_update({
     user: {
       name: updatedUser.name,
       // phone: updatedUser.phone,

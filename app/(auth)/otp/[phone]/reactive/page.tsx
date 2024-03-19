@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 import { useForm, Controller, SubmitHandler } from 'react-hook-form'
 
-import { useParams, useRouter } from 'next/navigation'
+import { redirect, useParams, useRouter } from 'next/navigation'
 import { FormError } from '@/components/auth/form-error'
 import { FormSuccess } from '@/components/auth/form-success'
 
@@ -16,6 +16,7 @@ import OtpInput from '../../../../../components/auth/otp-input'
 import { Button } from '@/components/ui/button'
 import { activation } from '@/lib/actions/auth/register'
 import { reactivate } from '@/lib/actions/auth/reactivate'
+import { toast } from 'sonner'
 
 type FormData = {
   otp: string
@@ -53,6 +54,7 @@ export default function OtpForm({ params }: { params: { phone: string } }) {
           setError(res.error)
           setSuccess(res.success)
           if (res.success) {
+            toast('اکانت شما با موفقیت فعال شد، وارد حساب کاربری خود شوید!')
             router.push('/login')
           }
           if (res.error) {
@@ -77,6 +79,9 @@ export default function OtpForm({ params }: { params: { phone: string } }) {
         .then((res) => {
           setError(res.error)
           setSuccess(res.success)
+          if (res.error === 'حساب شما فعال است!') {
+            router.push('/')
+          }
           if (res.success) {
             setSentSms(true)
           }
@@ -115,8 +120,14 @@ export default function OtpForm({ params }: { params: { phone: string } }) {
           <FormSuccess message={success} />
         </form>
       ) : (
-        <form onSubmit={handleSubmit(smsSend)}>
-          <Button type="submit">ارسال کد تایید به شماره {params.phone}</Button>
+        <form
+          className="w-full h-full flex flex-col items-center justify-center gap-6"
+          onSubmit={handleSubmit(smsSend)}
+        >
+          <p className="text-xl font-semibold">ارسال کد تایید به شماره:</p>
+          <Button variant={'destructive'} type="submit">
+            {params.phone}
+          </Button>
         </form>
       )}
     </>

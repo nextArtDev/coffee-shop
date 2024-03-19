@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth'
+import NextAuth, { DefaultSession } from 'next-auth'
 import { Role } from '@prisma/client'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 
@@ -10,6 +10,16 @@ import { getImageById } from './lib/queries/auth/image'
 // import { getTwoFactorConfirmationByUserId } from '@/data/two-factor-confirmation'
 // import { getAccountByUserId } from './data/account'
 
+// declare module 'next-auth' {
+//   interface Session {
+//     user: {
+//       role: Role
+//       phone: string
+//       isVerified: boolean
+//       image?: string
+//     } & DefaultSession['user']
+//   }
+// }
 export const {
   handlers: { GET, POST },
   auth,
@@ -38,7 +48,7 @@ export const {
 
       // Prevent sign in without verification
       if (!existingUser || !existingUser?.isVerified) return false
-
+      // allow user to sign in
       return true
     },
     async session({ token, session }) {

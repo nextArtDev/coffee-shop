@@ -10,6 +10,7 @@ import { FormSuccess } from '@/components/auth/form-success'
 
 import { Loader2 } from 'lucide-react'
 import { activation } from '@/lib/actions/auth/register'
+import { toast } from 'sonner'
 
 type FormData = {
   otp: string
@@ -37,6 +38,9 @@ export default function OtpForm({ params }: { params: { phone: string } }) {
           setError(res?.error)
           setSuccess(res?.success)
           if (res?.success) {
+            toast(
+              'ثبت نام شما با موفقیت انجام شد، لطفا وارد حساب کاربری خود شوید.'
+            )
             router.push('/login')
           }
           if (res?.error) {
