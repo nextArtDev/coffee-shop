@@ -37,7 +37,7 @@ export default auth((req): void | Response | Promise<void | Response> => {
       }
 
       const encodedCallbackUrl = encodeURIComponent(callbackUrl)
-
+      // can be new URL(`/login`, nextUrl) if intercepting route
       return Response.redirect(
         new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
         // new URL(`/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
