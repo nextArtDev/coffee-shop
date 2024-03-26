@@ -4,8 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/shared/theme-provider'
 import { Toaster } from 'sonner'
 import AuthProvider from '@/providers/AuthProvider'
-
-const inter = Inter({ subsets: ['latin'] })
+import { numericFont, primaryFont } from '@/lib/fonts'
 
 export const metadata: Metadata = {
   title: 'Coffee Shop',
@@ -20,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="fa-IR" dir="rtl">
       <AuthProvider>
-        <body className={inter.className}>
+        <body
+          className={` ${primaryFont.className} ${numericFont.className} adad min-h-screen`}
+        >
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

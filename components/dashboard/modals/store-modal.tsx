@@ -25,13 +25,15 @@ import { Modal } from '../modal'
 // import { useMutation } from '@tanstack/react-query'
 // import { toast } from '../ui/use-toast'
 import { useCustomToasts } from '@/hooks/use-custom-toasts'
-// import { createStoreSchema } from '@/lib/schema/store'
+
 import { useFormState, useFormStatus } from 'react-dom'
 // import { createStore } from '@/lib/actions/dashboard/store'
 import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
 import { SubmitButton } from '../SubmitButton'
 import { useStoreModal } from '@/hooks/use-store-modal'
+import { createStoreSchema } from '@/lib/schemas/dashboard/store'
+import { createStore } from '@/lib/actions/dashboard/store'
 
 // const createStoreSchema = z.object({
 //   name: z.string().min(1, { message: 'نام فروشگاه باید بیش از یک حرف باشد.' }),
@@ -43,40 +45,38 @@ export const StoreModal = () => {
   const pathname = usePathname()
   const { loginToast } = useCustomToasts()
 
-  // const form = useForm<z.infer<typeof createStoreSchema>>({
-  //   resolver: zodResolver(createStoreSchema),
-  //   defaultValues: {
-  //     name: '',
-  //   },
-  // })
-  // const { pending } = useFormStatus()
+  const form = useForm<z.infer<typeof createStoreSchema>>({
+    resolver: zodResolver(createStoreSchema),
+    defaultValues: {
+      name: '',
+    },
+  })
+  const { pending } = useFormStatus()
 
-  // const [formState, action] = useFormState(createStore.bind(null, pathname), {
-  //   errors: {},
-  // })
+  const [formState, action] = useFormState(createStore.bind(null, pathname), {
+    errors: {},
+  })
 
-  // useEffect(() => {
-  //   if (formState.errors?.name) {
-  //     form.setError('name', {
-  //       type: 'custom',
-  //       message: formState.errors.name?.join(' و'),
-  //     })
-  //   } else if (formState.errors?._form) {
-  //     toast.error(formState.errors._form?.join(' و'))
-  //     form.setError('root', {
-  //       type: 'custom',
-  //       message: formState.errors?._form?.join(' و'),
-  //     })
-  //   }
-  //   return () => form.clearErrors()
-  // }, [form, formState])
-  // console.log()
-  // console.log(formState.errors.name)
-  // console.log(form.formState.errors)
-  // if (formState.errors?.name) {
-  //   form.formState.errors.name?.message === formState.errors.name.join(' و')
-  //   // form.formState.errors=formState.errors
-  // }
+  useEffect(() => {
+    if (formState.errors?.name) {
+      form.setError('name', {
+        type: 'custom',
+        message: formState.errors.name?.join(' و'),
+      })
+    } else if (formState.errors?._form) {
+      toast.error(formState.errors._form?.join(' و'))
+      form.setError('root', {
+        type: 'custom',
+        message: formState.errors?._form?.join(' و'),
+      })
+    }
+    return () => form.clearErrors()
+  }, [form, formState])
+
+  if (formState.errors?.name) {
+    form.formState.errors.name?.message === formState.errors.name.join(' و')
+    // form.formState.errors=formState.errors
+  }
 
   // const onSubmit = async (data: z.infer<typeof createStoreSchema>) => {
   //   // const payload: z.infer<typeof createStoreSchema> = {
@@ -113,7 +113,7 @@ export const StoreModal = () => {
                       <FormControl>
                         <Input
                           disabled={form.formState.isLoading}
-                          placeholder="مثلا: کتاب فروشی فردا"
+                          placeholder="مثلا: کافی فردا"
                           {...field}
                         />
                       </FormControl>
